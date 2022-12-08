@@ -23,13 +23,14 @@ public:
 	// 리소스 관리
 	Mesh& CreateMesh(const std::size_t& InKey);
 	Texture& CreateTexture(const std::size_t& InKey, const std::string& InTexturePath);
+	Texture& CreateTexture(const std::size_t& InKey, const std::wstring& InTexturePath);
 
 	// 게임 오브젝트
 	const std::vector<std::unique_ptr<GameObject>>& GetScene() const { return _Scene; }
 	std::vector< std::unique_ptr<GameObject>>::const_iterator SceneBegin() const { return _Scene.begin(); }
 	std::vector< std::unique_ptr<GameObject>>::const_iterator SceneEnd() const { return _Scene.end(); }
-	GameObject& CreateNewGameObject(const std::string& InName);
-	GameObject& GetGameObject(const std::string& InName);
+	GameObject& CreateNewGameObject(const std::wstring& InName);
+	GameObject& GetGameObject(const std::wstring& InName);
 
 	// 메시
 	Mesh& GetMesh(const std::size_t& InMeshKey) { return *_Meshes.at(InMeshKey).get(); }
@@ -43,21 +44,21 @@ public:
 	FORCEINLINE const Texture& GetTexture(const std::size_t& InTextureKey) const { return *_Textures.at(InTextureKey).get(); }
 
 	// 본을 그리기 위한 목록
-	std::unordered_map<std::string, GameObject*> GetBoneObjectPtrs() { return _BoneGameObjectPtrs; }
+	std::unordered_map<std::wstring, GameObject*> GetBoneObjectPtrs() { return _BoneGameObjectPtrs; }
 
 private:
 	bool LoadResources();
 
 public: // 주요 키 값
 	// 본
-	static const std::string RootBone;
-	static const std::string PelvisBone;
-	static const std::string SpineBone;
-	static const std::string LeftArmBone;
-	static const std::string RightArmBone;
-	static const std::string NeckBone;
-	static const std::string LeftLegBone;
-	static const std::string RightLegBone;
+	static const std::wstring RootBone;
+	static const std::wstring PelvisBone;
+	static const std::wstring SpineBone;
+	static const std::wstring LeftArmBone;
+	static const std::wstring RightArmBone;
+	static const std::wstring NeckBone;
+	static const std::wstring LeftLegBone;
+	static const std::wstring RightLegBone;
 
 	// 메시
 	static const std::size_t CharacterMesh;
@@ -66,8 +67,9 @@ public: // 주요 키 값
 
 	// 텍스처
 	static const std::size_t BaseTexture;
-	static const std::string CharacterTexturePath;
+	static const std::wstring CharacterTexturePath;
 
+	static const std::wstring MMDCharacterPath;
 private:
 	bool _IsInitialized = false;
 
@@ -78,7 +80,7 @@ private:
 	std::vector<std::unique_ptr<GameObject>> _Scene;
 	std::unordered_map<std::size_t, std::unique_ptr<Mesh>> _Meshes;
 	std::unordered_map<std::size_t, std::unique_ptr<Texture>> _Textures;
-	std::unordered_map<std::string, GameObject*> _BoneGameObjectPtrs;
+	std::unordered_map<std::wstring, GameObject*> _BoneGameObjectPtrs;
 };
 
 }

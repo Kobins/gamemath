@@ -1,3 +1,7 @@
 /Source/Player/Res/*.aps
 /Project
 /Output
+
+# for ignore MMD model
+*.pmx
+/Resource/Texture/*

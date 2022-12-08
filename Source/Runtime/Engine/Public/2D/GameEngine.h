@@ -23,6 +23,7 @@ public:
 	// 리소스 관리
 	Mesh& CreateMesh(const std::size_t & InKey);
 	Texture& CreateTexture(const std::size_t & InKey, const std::string & InTexturePath);
+	Texture& CreateTexture(const std::size_t & InKey, const std::wstring & InTexturePath);
 
 	// 게임 오브젝트
 	const std::vector<std::unique_ptr<GameObject>>& GetScene() const { return _Scene; }

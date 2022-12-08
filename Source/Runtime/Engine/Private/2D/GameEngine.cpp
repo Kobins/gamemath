@@ -111,6 +111,12 @@ Texture& GameEngine::CreateTexture(const std::size_t& InKey, const std::string& 
 	return *_Textures.at(InKey).get();
 }
 
+Texture& GameEngine::CreateTexture(const std::size_t& InKey, const std::wstring& InTexturePath) {
+	auto texturePtr = std::make_unique<Texture>(InTexturePath);
+	_Textures.insert({ InKey, std::move(texturePtr) });
+	return *_Textures.at(InKey).get();
+}
+
 GameObject& GameEngine::CreateNewGameObject(const std::string& InName)
 {
 	std::size_t inHash = std::hash<std::string>()(InName);

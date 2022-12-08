@@ -108,7 +108,7 @@ FORCEINLINE constexpr Transform Transform::WorldToLocal(const Transform& InParen
 	Transform result;
 	result.SetScale(invParent.GetScale() * GetScale());
 	result.SetRotation(invParent.GetRotation() * GetRotation());
-	result.SetPosition(invParent.GetPosition() + (invParent.GetRotation() * (invParent.GetScale() * GetPosition())));
+	result.SetPosition(invParent.GetPosition() + (invParent.GetScale() * (invParent.GetRotation() * GetPosition())));
 	return result;
 }
 

@@ -145,4 +145,5 @@ bool PMXLoader::Load(GameEngine& InGameEngine, Mesh& InMesh, const std::wstring&
 		ti.emplace_back(TexturesIndice(m.diffuse_texture_index, cnt, cnt + c));
 		cnt += c;
 	}
+	return true;
 }

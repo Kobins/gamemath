@@ -42,11 +42,13 @@ public:
 
 	FORCEINLINE constexpr Vector3 RotateVector(const Vector3& InVector) const;
 	FORCEINLINE constexpr Quaternion Inverse() const { return Quaternion(-X, -Y, -Z, W); }
+	FORCEINLINE constexpr float Dot(const Quaternion& InQuaternion) const { return X * InQuaternion.X + Y * InQuaternion.Y + Z * InQuaternion.Z + W * InQuaternion.W; }
+	FORCEINLINE float Angle(const Quaternion& InQuaternion) const { return acosf(Dot(InQuaternion)); }
 	FORCEINLINE void Normalize();
 	FORCEINLINE Rotator ToRotator() const;
 	FORCEINLINE bool IsUnitQuaternion() const
 	{
-		float size = sqrtf(X * X + Y * Y + Z * Z + W * W);
+		float size = sqrtf(Dot(*this));
 		if (Math::EqualsInTolerance(size, 1.f))
 		{
 			return true;
@@ -204,7 +206,7 @@ FORCEINLINE Quaternion Quaternion::Slerp(const Quaternion & InQuaternion1, const
 	Quaternion q1 = InQuaternion1, q2 = InQuaternion2;
 
 	// 사원수의 내적 구하기
-	float dot = q1.X * q2.X + q1.Y * q2.Y + q1.Z * q2.Z + q1.W * q2.W;
+	float dot = q1.Dot(q2);
 
 	// 내적 값이 0보다 작으면 최단거리를 사용하도록 방향을 전환
 	if (dot < 0.0f) {

@@ -125,6 +125,15 @@ void SoftRenderer::LateUpdate3D(float InDeltaSeconds)
 	GameEngine& g = Get3DGameEngine();
 
 	// 애니메이션 로직의 로컬 변수
+	// 커브: 사전에 정의된 애니메이션 데이터
+	static AnimationCurve<Quaternion> curve({
+		// {시간, 기울기, 값}
+		Keyframe<Quaternion>{0.f, 0.f, Quaternion(Rotator(0.f, 30.f, 0.f))},
+		Keyframe<Quaternion>{3.f, 0.f, Quaternion(Rotator(0.f, 30.f, 90.f))},
+		Keyframe<Quaternion>{6.f, 0.f, Quaternion(Rotator(0.f, 30.f, 0.f))},
+	});
+	// 세션: 애니메이션을 실행시키는 객체
+	static AnimationSession<Quaternion> session(curve);
 	static float elapsedTime = 0.f;
 	static float neckLength = 5.f;
 	static float armLegLength = 1.4f;
@@ -151,10 +160,16 @@ void SoftRenderer::LateUpdate3D(float InDeltaSeconds)
 
 	// 팔의 회전
 	Bone& leftArmBone = m.GetBone(L"右肩P");
-	leftArmBone.GetTransform().SetLocalRotation(Rotator(0.f, 0.f, armLegCurve));
+	//leftArmBone.GetTransform().SetLocalRotation(Rotator(0.f, 30.f, armLegCurve));
+	Quaternion newRotation = session.Next(InDeltaSeconds);
+	auto& r = GetRenderer();
+	r.PushStatisticText("Rotation : " + newRotation.ToString());
+	r.PushStatisticText("Time : " + std::to_string(session.GetTime()));
+	r.PushStatisticText("Index : " + std::to_string(session.GetIndex()));
+	leftArmBone.GetTransform().SetLocalRotation(newRotation);
 
 	Bone& rightArmBone = m.GetBone(L"左肩P");
-	rightArmBone.GetTransform().SetLocalRotation(Rotator(0.f, 0.f, -armLegCurve));
+	rightArmBone.GetTransform().SetLocalRotation(Rotator(0.f, -30.f, -armLegCurve));
 
 	// 다리의 회전
 	Bone& leftLegBone = m.GetBone(L"右足D");
@@ -162,7 +177,7 @@ void SoftRenderer::LateUpdate3D(float InDeltaSeconds)
 
 	Bone& rightLegBone = m.GetBone(L"左足D");
 	rightLegBone.GetTransform().SetLocalRotation(Rotator(0.f, 0.f, armLegCurve));
-	
+
 }
 
 // 렌더링 로직을 담당하는 함수

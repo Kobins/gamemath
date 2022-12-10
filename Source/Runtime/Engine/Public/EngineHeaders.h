@@ -23,4 +23,6 @@
 
 #include "3D/PMXLoader.h"
 
+#include "Animation.h"
+
 using namespace CK;
